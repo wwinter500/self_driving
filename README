@@ -43,6 +43,11 @@ d.	training set accuracy = unrecorded
 
 3. final test images is from GTSRB data set in which images format is ppm, and the size is not 32 * 32.
    before I start test, i need load ppm file by skimage and resize them to 32*32 by numpy
-   I pass 5 images to 
-
+   I pass 5 images to model, the result:
+   TopKV2(values=array([ 0.29774481,  0.07255951,  0.05254821,  0.04730011,  0.04410096], 
+   					[ 0.26439881,  0.11065474,  0.04948991,  0.04643316,  0.04405318],
+   					[ 0.4554905 ,  0.04427201,  0.0392456 ,  0.03168693,  0.02614531],
+   					[ 0.16883691,  0.10111474,  0.09836857,  0.07256201,  0.06892448],
+   					[ 0.21717823,  0.0776408 ,  0.07398154,  0.05089254,  0.04290496]), indices=array([31, 19, 21, 23, 29],
+   					[4, 1, 2, 0, 7], [13, 38, 41, 36,  1], [4, 7, 1, 5, 2],[ 8, 15,  9,  7,  3], dtype=int32))
 
