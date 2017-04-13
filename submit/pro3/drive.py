@@ -69,7 +69,7 @@ def telemetry(sid, data):
         steering_angle = float(model.predict(image_array2, batch_size=1))
 
         #throttle = controller.update(float(speed))
-        throttle = 0.2
+        throttle = 0.1
 		
         print(steering_angle, throttle)
         send_control(steering_angle, throttle)
@@ -120,6 +120,16 @@ if __name__ == '__main__':
         help='Path to image folder. This is where the images from the run will be saved.'
     )
     args = parser.parse_args()
+    
+    f = h5py.File(args.model, mode='r')
+    model_version = f.attrs.get('keras_version')
+    keras_version = str(keras_version).encode('utf8')
+
+    if model_version != keras_version:
+        print('You are using Keras version ', keras_version,
+              ', but the model was built using ', model_version)
+
+    model = load_model(args.model)
 
     # check that model Keras version is same as local Keras version
     #f = h5py.File(args.model, mode='r')
@@ -136,14 +146,13 @@ if __name__ == '__main__':
     #loaded_model = model_from_json(loaded_model_json)
     #loaded_model.load_weights(args.model)
     
-    with open(args.model, 'r') as jfile:
-	    model = model_from_json(jfile.read())
+    #with open(args.model, 'r') as jfile:
+	    #model = model_from_json(jfile.read())
 
     #model.compile("adam", "mse")
     #weights_file = args.model.replace('json', 'h5')
     #model.load_weights(weights_file)
-    model = load_model(args.model)
-
+    
     if args.image_folder != '':
         print("Creating image folder at {}".format(args.image_folder))
         if not os.path.exists(args.image_folder):
