@@ -56,7 +56,10 @@ X_train = np.array(augmented_images)
 y_train = np.array(augmented_measurements)
 
 X_train, y_train = shuffle(X_train, y_train)
+X_train, X_val, y_train, y_val = cross_validation.train_test_split(
+      X_train, y_train, test_size=0.2, random_state=0)
 X_train = X_train.reshape(X_train.shape[0], resizeY, resizeX, 1)
+X_val = X_val.reshape(X_val.shape[0], resizeY, resizeX, 1)
 
 model = Sequential()#build model
 model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(16,32,1)))#preprocess
@@ -75,7 +78,7 @@ model.compile(loss='mse', optimizer='adam')
 
 batchSize = 128
 epoch = 10
-model.fit(X_train, y_train, batch_size=batchSize, nb_epoch=epoch, verbose=1)
+model.fit(X_train, y_train, batch_size=batchSize, nb_epoch=epoch, verbose=1, validation_data=(X_val, y_val))
 
 
 ## save model
